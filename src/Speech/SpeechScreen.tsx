@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Alert
 } from "react-native";
-import {Locale} from '../constants';
+import {Locale, serverURL} from '../constants';
 import { NavigationScreenProps, NavigationParams } from "react-navigation";
 import Voice from "react-native-voice";
 import Spell from "./Spell";
@@ -22,32 +22,31 @@ type States = {
   error: string;
   results: string[];
   partialResults: string[];
-  part: Part;
   matchedSpellCode: number;
 };
 export default class SpeechScreen extends Component<NavigationScreenProps<NavigationParams>,States> {
   constructor(props: NavigationScreenProps) {
     super(props);
-    console.log(Voice);
-    
     Voice.onSpeechStart = this.onSpeechStart
     Voice.onSpeechEnd = this.onSpeechEnd
     Voice.onSpeechError = this.onSpeechError
     Voice.onSpeechResults = this.onSpeechResults
     this.renderSpells = this.renderSpells.bind(this);
-    this.sendStopMessage = this.sendStopMessage.bind(this);
+    this.sendCommand = this.sendCommand.bind(this);
   }
+  part: Part = this.props.navigation.getParam("part");
   state = {
     active: false,
     error: "",
     results: [],
     partialResults: [],
-    part: this.props.navigation.getParam("part"),
     matchedSpellCode: 0
   };
   static navigationOptions = {
     title: "음성인식"
   };
+
+  // render
   renderSpells(part: Part) {
     let spells: JSX.Element[] = [];
     part.spells.forEach((spell, index) => {
@@ -60,10 +59,6 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
       );
     });
     return spells;
-  }
-  sendStopMessage() {
-    console.warn("모든 동작을 중지시켰다");
-    
   }
   render() {
     let btn = (
@@ -89,9 +84,9 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
     return (
       <View style={styles.container}>
         <View style={styles.top}>
-          <Text style={styles.title}>{this.state.part.korean} 명령어 목록</Text>
+          <Text style={styles.title}>{this.part.korean} 명령어 목록</Text>
           <View style={styles.spellContainer}>
-            {this.renderSpells(this.state.part)}
+            {this.renderSpells(this.part)}
           </View>
         </View>
         <View style={middleStyle}>
@@ -105,7 +100,9 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
         </View>
         <View style={styles.bottom}>
           {btn}
-          <TouchableHighlight onPress={() => {Alert.alert(
+        </View>
+        <View style={styles.allStopBtnContainer}>
+          <TouchableWithoutFeedback onPress={() => {Alert.alert(
             ('모든 동작을 중지시키겠습니까?'),
             '',
             [
@@ -115,21 +112,46 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
               },
               {
                 text: '예',
-                onPress: () => {this.sendStopMessage()}
+                onPress: () => {this.sendCommand(this.part.stop, () => {
+                  this.setState({
+                    active: false,
+                    results: [],
+                    matchedSpellCode: 0
+                  });
+                })}
               }
             ]
           )}}>
-            <Text style={styles.circleBtn}>
-              중지
-            </Text>
-          </TouchableHighlight>
+            <Text style={styles.allStopBtn}>중지</Text>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );
   }
+
+  // custom function
+  sendCommand(code: number, callback: () => void) {
+    const config = {
+      method: 'post',
+      url: serverURL,
+      data: { code }
+    }
+    callback();
+
+    // 아직 서버가 구축이 안됬다잉
+    // axios(config).then((response) => {
+    // }).catch((err) => {
+    //   if ( err.response ) {    
+    //   }
+    // });
+  }
+
+  // life cycle
   componentWillUnmount() {
     Voice.destroy().then(Voice.removeAllListeners);
   }
+
+  // voice recognition functions
   onSpeechStart = (e: Voice.StartEvent) => {
     // eslint-disable-next-line
     console.log("onSpeechStart: ", e);
@@ -140,30 +162,19 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
     if (this.state.results.length == 1) {
       let spell = this.state.results[0] as string;
       spell = spell.replace(/\s/g, "");
-      console.log("spell : ", spell);
-      this.state.part.spells.forEach((i: SpellType) => {
+      this.part.spells.forEach((i: SpellType) => {
         i.similar.forEach((z: string) => {
           if (z == spell) {
             matchedSpellCode = i.code;
-            const config = {
-              method: "post",
-              url: "http://voice-car.com",
-              data: {
-                code: i.code
-              }
-            };
-            // axios(config).then(response => {
-            // }).catch(e => {
-            //   console.error( 'Error : ', e );
-            // });
-            Alert.alert("Code : " + i.code);
           }
         });
       });
     }
-    this.setState({
-      active: false,
-      matchedSpellCode
+    this.sendCommand(matchedSpellCode, () => {
+      this.setState({
+        active: false,
+        matchedSpellCode
+      });
     });
   };
   onSpeechError = (e: Voice.ErrorEvent) => {
@@ -229,9 +240,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: 50,
+    paddingTop: 50,
     justifyContent: "space-between",
-    marginBottom: 50
+    paddingBottom: 80,
+    position: 'relative'
   },
   spellContainer: {
     display: "flex",
@@ -265,11 +277,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  circleBtn: {
-    padding: 5,
-    height: 100,
-    width: 100,  //The Width must be the same as the height
-    borderRadius:200, //Then Make the Border Radius twice the size of width or Height   
+  allStopBtnContainer: {
+    padding: 10,
+    width: '100%',  //The Width must be the same as the height
     backgroundColor:'rgb(195, 125, 198)',
-  } 
+    position: 'absolute',
+    bottom: 20,
+    right: 0,
+    left: 0,
+  },
+  allStopBtn: {
+    textAlign: 'center',
+    fontSize: 25,
+    color: 'white'
+  }
 });

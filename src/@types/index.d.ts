@@ -6,7 +6,8 @@ type Spell = {
 type Part = {
   id: number,
   korean: string,
-  spells: Spell[]
+  spells: Spell[],
+  stop: number
 }
 type Parts = {
   HAND: Part,

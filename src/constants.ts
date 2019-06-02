@@ -33,7 +33,8 @@ const parts: Parts = {
         similar: ['손접어', '손저붜', '손자보', '손저봐'],
         code: 12
       },
-    ]
+    ],
+    stop: 1000,
   },
   ARM: {
     id: 2,
@@ -59,7 +60,8 @@ const parts: Parts = {
         similar: ['팔내려'],
         code: 24
       },
-    ]
+    ],
+    stop: 2000,
   },
   WAIST: {
     id: 3,
@@ -75,7 +77,8 @@ const parts: Parts = {
         similar: ['오른쪽'],
         code: 32
       }
-    ]
+    ],
+    stop: 3000,
   },
   BOTTOM : {
     id: 4,
@@ -92,21 +95,17 @@ const parts: Parts = {
         code: 42
       },
       {
-        main: '멈춰',
-        similar: ['멈춰'],
-        code: 43
-      },
-      {
         main: '왼쪽',
         similar: ['왼쪽'],
-        code: 44
+        code: 43
       },
       {
         main: '오른쪽',
         similar: ['오른쪽'],
-        code: 45
+        code: 44
       }
-    ]
+    ],
+    stop: 4000,
   }
 };
 
@@ -119,8 +118,11 @@ enum Locale {
   zh = 'zh'
 }
 
+const serverURL = 'http://test-server.com'
+
 export {
   teamColors,
   parts,
-  Locale
+  Locale,
+  serverURL
 }
