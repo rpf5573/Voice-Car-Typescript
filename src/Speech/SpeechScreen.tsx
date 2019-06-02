@@ -119,9 +119,9 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
               }
             ]
           )}}>
-            <View style={styles.circleBtn}>
+            <Text style={styles.circleBtn}>
               중지
-            </View>
+            </Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -261,6 +261,7 @@ const styles = StyleSheet.create({
   },
   bottom: {
     display: "flex",
+    flexDirection: 'row',
     alignItems: "center",
     justifyContent: "center"
   },
