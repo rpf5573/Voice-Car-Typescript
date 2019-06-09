@@ -26,7 +26,7 @@ const parts: Parts = {
       {
         main: '손 펴',
         similar: ['손펴', '손표', '손피라고', '성표', '성펴'],
-        code: 11
+        code: 11,
       },
       {
         main: '손 접어',
@@ -34,7 +34,9 @@ const parts: Parts = {
         code: 12
       },
     ],
-    stop: 1000,
+    stop: {
+      code: 1000
+    },
   },
   ARM: {
     id: 2,
@@ -43,25 +45,32 @@ const parts: Parts = {
       {
         main: '팔 펴',
         similar: ['팔펴','발표', '8펴', '팔피라고', '탈피라고','팔표'],
-        code: 21
+        code: 21,
+        command: 'motor-5/backward/100'
       },
       {
         main: '팔 접어',
         similar: ['팔접어', '팔저붜', '팔자보', '팔저봐'],
-        code: 22
+        code: 22,
+        command: 'motor-5/forward/100'
       },
       {
         main: '팔 들어',
         similar: ['팔들어'],
-        code: 23
+        code: 23,
+        command: 'motor-2/forward/100'
       },
       {
         main: '팔 내려',
         similar: ['팔내려'],
-        code: 24
+        code: 24,
+        command: 'motor-2/backward/100'
       },
     ],
-    stop: 2000,
+    stop: {
+      code: 2000,
+      command: 'arm/stop'
+    },
   },
   WAIST: {
     id: 3,
@@ -70,15 +79,20 @@ const parts: Parts = {
       {
         main: '왼쪽',
         similar: ['왼쪽'],
-        code: 31
+        code: 31,
+        command: 'motor-1/backward/100'
       },
       {
         main: '오른쪽',
         similar: ['오른쪽'],
-        code: 32
+        code: 32,
+        command: 'motor-1/forward/100'
       }
     ],
-    stop: 3000,
+    stop: {
+      code: 3000,
+      command: 'motor-1/stop'
+    },
   },
   BOTTOM : {
     id: 4,
@@ -87,25 +101,32 @@ const parts: Parts = {
       {
         main: '앞으로',
         similar: ['앞으로'],
-        code: 41
+        code: 41,
+        command: 'bottom/forward'
       },
       {
         main: '뒤로',
         similar: ['뒤로'],
-        code: 42
+        code: 42,
+        command: 'bottom/backward'
       },
       {
         main: '왼쪽',
         similar: ['왼쪽'],
-        code: 43
+        code: 43,
+        command: 'bottom/left'
       },
       {
         main: '오른쪽',
         similar: ['오른쪽'],
-        code: 44
+        code: 44,
+        command: 'bottom/right'
       }
     ],
-    stop: 4000,
+    stop: {
+      code: 4000,
+      command: 'bottom/stop'
+    },
   }
 };
 
@@ -118,7 +139,7 @@ enum Locale {
   zh = 'zh'
 }
 
-const serverURL = 'http://test-server.com'
+const serverURL = 'http://voice-car-01.jp.ngrok.io.ngrok.io'
 
 export {
   teamColors,

@@ -112,7 +112,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
               },
               {
                 text: '예',
-                onPress: () => {this.sendCommand(this.part.stop, () => {
+                onPress: () => {this.sendCommand(this.part.stop.command, () => {
                   this.setState({
                     active: false,
                     results: [],
@@ -130,20 +130,15 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
   }
 
   // custom function
-  sendCommand(code: number, callback: () => void) {
-    const config = {
-      method: 'post',
-      url: serverURL,
-      data: { code }
-    }
+  sendCommand(command: string|undefined, callback: () => void) {
     callback();
-
-    // 아직 서버가 구축이 안됬다잉
-    // axios(config).then((response) => {
-    // }).catch((err) => {
-    //   if ( err.response ) {    
-    //   }
-    // });
+    let url: string = `${serverURL}/${command}`;
+    console.log(url);
+    axios(url).then((response) => {
+    }).catch((err) => {
+      if ( err.response ) {
+      }
+    });
   }
 
   // life cycle
@@ -159,6 +154,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
   onSpeechEnd = (e: Voice.EndEvent) => {
     // eslint-disable-next-line
     let matchedSpellCode = 0;
+    let matchedCommand = undefined;
     if (this.state.results.length == 1) {
       let spell = this.state.results[0] as string;
       spell = spell.replace(/\s/g, "");
@@ -166,11 +162,12 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
         i.similar.forEach((z: string) => {
           if (z == spell) {
             matchedSpellCode = i.code;
+            matchedCommand = i.command;
           }
         });
       });
     }
-    this.sendCommand(matchedSpellCode, () => {
+    this.sendCommand(matchedCommand, () => {
       this.setState({
         active: false,
         matchedSpellCode

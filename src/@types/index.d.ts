@@ -1,13 +1,17 @@
 type Spell = {
   main: string,
   similar: string[],
-  code: number
+  code: number,
+  command?: string // 아직은 undefined
 }
 type Part = {
   id: number,
   korean: string,
   spells: Spell[],
-  stop: number
+  stop: {
+    code: number,
+    command?: string
+  }
 }
 type Parts = {
   HAND: Part,
