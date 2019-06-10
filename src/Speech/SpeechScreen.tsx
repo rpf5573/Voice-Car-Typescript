@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Alert
 } from "react-native";
-import {Locale, serverURL} from '../constants';
+import {Locale, rapiURL} from '../constants';
 import { NavigationScreenProps, NavigationParams } from "react-navigation";
 import Voice from "react-native-voice";
 import Spell from "./Spell";
@@ -34,6 +34,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
     this.renderSpells = this.renderSpells.bind(this);
     this.sendCommand = this.sendCommand.bind(this);
   }
+  team: number = this.props.navigation.getParam("team");
   part: Part = this.props.navigation.getParam("part");
   state = {
     active: false,
@@ -132,7 +133,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
   // custom function
   sendCommand(command: string|undefined, callback: () => void) {
     callback();
-    let url: string = `${serverURL}/${command}`;
+    let url: string = `${rapiURL(this.team)}/${command}`;
     console.log(url);
     axios(url).then((response) => {
       if ( response.status == 201 ) {
@@ -141,7 +142,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
         console.warn(response.status);
       }
     }).catch((err) => {
-      console.warn(err);
+      Alert.alert("ERROR", "포크레인 서버로부터 응답이 없습니다");
     });
   }
 

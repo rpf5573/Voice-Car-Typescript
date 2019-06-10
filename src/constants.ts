@@ -139,11 +139,15 @@ enum Locale {
   zh = 'zh'
 }
 
-const serverURL = 'http://voice-car-01.jp.ngrok.io.ngrok.io'
+const rapiURL = (team: number) => {
+  return `http://voice-car-0${team}.jp.ngrok.io.ngrok.io`;
+}
+const serverURL = 'http://voice-car.club';
 
 export {
   teamColors,
   parts,
   Locale,
+  rapiURL,
   serverURL
 }

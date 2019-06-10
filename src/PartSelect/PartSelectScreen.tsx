@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, ImageBackground} from 'react-native';
+import {StyleSheet, View, ImageBackground, Alert} from 'react-native';
 import {NavigationScreenProps, NavigationParams} from "react-navigation";
 import {parts} from '../constants';
 import PartBox from './PartBox';
@@ -21,9 +21,15 @@ export default class PartSelectScreen extends Component<NavigationScreenProps<Na
     title: '몸체 설정'
   }
   moveToSpeechScreen(part: Part) {
-    this.props.navigation.push(ROUTES.SpeechScreen, {
-      part
-    });
+    let team: number = this.props.navigation.getParam('team');
+    if ( team > 0 ) {
+      this.props.navigation.push(ROUTES.SpeechScreen, {
+        part,
+        team
+      });
+    } else {
+      Alert.alert("ERROR", "팀이 설정되어있지 않습니다.");
+    }
   }
   renderPartBoxes(parts: Parts) {
     let partBoxes = []
