@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
-import TeamSelectScreen from './TeamSelect/TeamSelectScreen';
+import EntranceScreen from './Entrance/EntranceScreen';
 import SpeechScreen from './Speech/SpeechScreen';
 import PartSelectScreen from './PartSelect/PartSelectScreen';
 import ROUTES from './routes';
 
 const AppNavigator = createStackNavigator(
   {
-    TeamSelectScreen,
+    EntranceScreen,
     SpeechScreen,
     PartSelectScreen
   },
   {
-    initialRouteName: ROUTES.TeamSelectScreen,
+    initialRouteName: ROUTES.EntranceScreen,
     headerMode: "none"
   }
 );

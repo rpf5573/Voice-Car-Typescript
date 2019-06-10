@@ -1,5 +1,5 @@
 enum ROUTES {
-  TeamSelectScreen = "TeamSelectScreen",
+  EntranceScreen = "EntranceScreen",
   PartSelectScreen = "PartSelectScreen",
   SpeechScreen = "SpeechScreen"
 }

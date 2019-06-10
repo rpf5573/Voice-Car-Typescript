@@ -135,9 +135,13 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
     let url: string = `${serverURL}/${command}`;
     console.log(url);
     axios(url).then((response) => {
-    }).catch((err) => {
-      if ( err.response ) {
+      if ( response.status == 201 ) {
+        
+      } else {
+        console.warn(response.status);
       }
+    }).catch((err) => {
+      console.warn(err);
     });
   }
 
