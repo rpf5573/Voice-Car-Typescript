@@ -45,7 +45,7 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
           Alert.alert(response.data.error);
           return;
         }
-        Alert.alert(`성공 - ${response.data.team}팀으로 입장`, undefined, [
+        Alert.alert('성공',`${response.data.team}팀으로 입장`, [
           {
             text: "확인",
             onPress: () => { this.moveToPartSelectScreen(response.data.team) }

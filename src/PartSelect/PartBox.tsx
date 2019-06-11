@@ -16,8 +16,8 @@ export default class PartBox extends Component<Props> {
     return (
       <View style={[styles.partBox, {backgroundColor: this.props.backgroundColor}]}>
         <TouchableWithoutFeedback onPress={() => { Alert.alert(
+          '안내',
           (this.props.part.korean + ' 로 진행하시겠습니까?'),
-          '',
           [
             {
               text: '아니오',

@@ -16,6 +16,7 @@ import Spell from "./Spell";
 import axios from "axios";
 import { Part, Parts, Spell as SpellType } from "../@types/index";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import { number } from "prop-types";
 
 type States = {
   active: boolean;
@@ -33,6 +34,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
     Voice.onSpeechResults = this.onSpeechResults
     this.renderSpells = this.renderSpells.bind(this);
     this.sendCommand = this.sendCommand.bind(this);
+    this.getMatchedSpell = this.getMatchedSpell.bind(this);
   }
   team: number = this.props.navigation.getParam("team");
   part: Part = this.props.navigation.getParam("part");
@@ -142,6 +144,25 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
       Alert.alert("ERROR", "포크레인 서버로부터 응답이 없습니다");
     });
   }
+  getMatchedSpell(spell: string): { code?: number, command?: string } {
+    let matchedSpellCode = undefined;
+    let matchedCommand = undefined;
+    spell = spell.replace(/\s/g, "");
+    this.part.spells.forEach((i: SpellType) => {
+      i.similar.forEach((z: string) => {
+        console.log(`similar string : ${z}`);
+        console.log(`spell string : ${spell}`);
+        if (z == spell) {
+          matchedSpellCode = i.code;
+          matchedCommand = i.command;
+        }
+      });
+    });
+    return {
+      code: matchedSpellCode,
+      command: matchedCommand
+    }
+  }
 
   // life cycle
   componentWillUnmount() {
@@ -156,26 +177,17 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
   onSpeechEnd = (e: Voice.EndEvent) => {
     console.log("onSpeechEnd");
     // eslint-disable-next-line
-    let matchedSpellCode = 0;
-    let matchedCommand = undefined;
-    if (this.state.result != '') {
-      let spell = this.state.result;
-      spell = spell.replace(/\s/g, "");
-      this.part.spells.forEach((i: SpellType) => {
-        i.similar.forEach((z: string) => {
-          console.log(`similar string : ${z}`);
-          console.log(`spell string : ${spell}`);
-          if (z == spell) {
-            matchedSpellCode = i.code;
-            matchedCommand = i.command;
-          }
-        });
-      });
-    }
-    this.sendCommand(matchedCommand, () => {
+
+    // ios는 result -> end순서로 호출되고,
+    // android는 end -> result순서로 호출되기 때문에 다르게 지정해줘야한다
+    if ( Platform.OS != 'ios' ) { return; }
+    if ( this.state.result == '' ) { return; }
+
+    let result = this.getMatchedSpell(this.state.result);
+    this.sendCommand(result.command!, () => {
       this.setState({
         active: false,
-        matchedSpellCode
+        matchedSpellCode: result.code!
       });
     });
   };
@@ -191,6 +203,17 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
     console.log(`onSpeechResults - val : ${val}`);
     this.setState({
       result: val
+    }, () => {
+      if ( Platform.OS != 'android' ) { return; }
+      if ( this.state.result == '' ) { return; }
+
+      let result = this.getMatchedSpell(this.state.result);
+      this.sendCommand(result.command!, () => {
+        this.setState({
+          active: false,
+          matchedSpellCode: result.code!
+        });
+      });
     });
   };
   startRecognizing = async () => {
