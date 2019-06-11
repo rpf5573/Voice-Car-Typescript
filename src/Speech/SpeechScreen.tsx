@@ -20,7 +20,7 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 type States = {
   active: boolean;
   error: string;
-  results: string[];
+  result: string;
   partialResults: string[];
   matchedSpellCode: number;
 };
@@ -39,7 +39,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
   state = {
     active: false,
     error: "",
-    results: [],
+    result: "",
     partialResults: [],
     matchedSpellCode: 0
   };
@@ -62,6 +62,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
     return spells;
   }
   render() {
+    console.log(`render is called - ${this.state.result}`);
     let btn = (
       <TouchableWithoutFeedback onPress={this.startRecognizing}>
         <Image
@@ -70,8 +71,9 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
         />
       </TouchableWithoutFeedback>
     );
-    let middleStyle: any[] = [styles.middle];
+    let middleStyle: any[] = [styles.middle, styles.dFlex];
     if (this.state.active) {
+      console.log(`this.state.active !!`);
       btn = (
         <TouchableWithoutFeedback onPress={this.stopRecognizing}>
           <Image
@@ -80,7 +82,6 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
           />
         </TouchableWithoutFeedback>
       );
-      middleStyle.push(styles.dFlex);
     }
     return (
       <View style={styles.container}>
@@ -91,13 +92,9 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
           </View>
         </View>
         <View style={middleStyle}>
-          {this.state.results.map((result, index) => {
-            return (
-              <Text key={`result-${index}`} style={styles.result}>
-                {result}
-              </Text>
-            );
-          })}
+          <Text key='result-1' style={styles.result}>
+            {this.state.result}
+          </Text>
         </View>
         <View style={styles.bottom}>
           {btn}
@@ -116,7 +113,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
                 onPress: () => {this.sendCommand(this.part.stop.command, () => {
                   this.setState({
                     active: false,
-                    results: [],
+                    result: '',
                     matchedSpellCode: 0
                   });
                 })}
@@ -157,14 +154,17 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
     console.log("onSpeechStart: ", e);
   };
   onSpeechEnd = (e: Voice.EndEvent) => {
+    console.log("onSpeechEnd");
     // eslint-disable-next-line
     let matchedSpellCode = 0;
     let matchedCommand = undefined;
-    if (this.state.results.length == 1) {
-      let spell = this.state.results[0] as string;
+    if (this.state.result != '') {
+      let spell = this.state.result;
       spell = spell.replace(/\s/g, "");
       this.part.spells.forEach((i: SpellType) => {
         i.similar.forEach((z: string) => {
+          console.log(`similar string : ${z}`);
+          console.log(`spell string : ${spell}`);
           if (z == spell) {
             matchedSpellCode = i.code;
             matchedCommand = i.command;
@@ -181,24 +181,23 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
   };
   onSpeechError = (e: Voice.ErrorEvent) => {
     console.log(e);
-    
     this.setState({
       error: JSON.stringify(e.error),
       active: false
     });
   };
   onSpeechResults = (e: Voice.Results) => {
-    console.log(e.value);
-    
+    const val: string = e.value[0];
+    console.log(`onSpeechResults - val : ${val}`);
     this.setState({
-      results: e.value
+      result: val
     });
   };
   startRecognizing = async () => {
     this.setState({
       active: true,
       error: "",
-      results: [],
+      result: '',
       partialResults: []
     });
     try {
@@ -229,7 +228,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
     }
     this.setState({
       error: "",
-      results: [],
+      result: '',
       partialResults: []
     });
   };
@@ -271,7 +270,8 @@ const styles = StyleSheet.create({
     display: "flex"
   },
   result: {
-    fontSize: 30
+    fontSize: 30,
+    color: 'black'
   },
   bottom: {
     display: "flex",

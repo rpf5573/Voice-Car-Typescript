@@ -19,14 +19,13 @@ export default class Spell extends Component<Props> {
 const styles = StyleSheet.create({
   spell: {
     fontSize: 20,
+    padding: 6,
     margin: 10,
     backgroundColor: '#00b5ad',
-    borderWidth: 4,
     borderColor: '#00b5ad',
     borderRadius: 6,
     color: '#fff',
     overflow: 'hidden',
-    padding: 4
   },
   red: {
     backgroundColor: 'red',

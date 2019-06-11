@@ -8,7 +8,7 @@
     "jsx": "react",
     "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export. This does not affect code emit, just typechecking.
     "resolveJsonModule":true, // import {name as appName} from '../app.json'; 이걸 가능하게 해준다. 즉 json파일을 import할 수 있도록 만들어준다
-    "typeRoots": ["./node_modules/@types", "./src/@types"]
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
   },
   "exclude": [
     "node_modules",
