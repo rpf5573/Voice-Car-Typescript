@@ -221,7 +221,8 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
       active: true,
       error: "",
       result: '',
-      partialResults: []
+      partialResults: [],
+      matchedSpellCode: 0
     });
     try {
       await Voice.start(Locale.ko_KR);
