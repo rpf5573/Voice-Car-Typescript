@@ -1,5 +1,9 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.client">
+<manifest 
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  package="com.voicecarv2"
+  android:usesCleartextTraffic="true" 
+  tools:targetApi="28">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

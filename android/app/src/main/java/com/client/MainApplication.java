@@ -1,4 +1,4 @@
-package com.client;
+package com.voicecarv2;
 
 import android.app.Application;
 
