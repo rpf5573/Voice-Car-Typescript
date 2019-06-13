@@ -73,7 +73,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
         />
       </TouchableWithoutFeedback>
     );
-    let middleStyle: any[] = [styles.middle, styles.dFlex];
+    let middleStyle: any[] = [styles.middle];
     if (this.state.active) {
       console.log(`this.state.active !!`);
       btn = (
@@ -102,26 +102,14 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
           {btn}
         </View>
         <View style={styles.allStopBtnContainer}>
-          <TouchableWithoutFeedback onPress={() => {Alert.alert(
-            ('모든 동작을 중지시키겠습니까?'),
-            '',
-            [
-              {
-                text: '아니오',
-                onPress: () => {console.warn('아니오 클릭')}
-              },
-              {
-                text: '예',
-                onPress: () => {this.sendCommand(this.part.stop.command, () => {
-                  this.setState({
-                    active: false,
-                    result: '',
-                    matchedSpellCode: 0
-                  });
-                })}
-              }
-            ]
-          )}}>
+          <TouchableWithoutFeedback onPress={() => {
+            this.sendCommand(this.part.stop.command, () => {
+              this.setState({
+                active: false,
+                result: '',
+                matchedSpellCode: 0
+              });
+            })}}>
             <Text style={styles.allStopBtn}>중지</Text>
           </TouchableWithoutFeedback>
         </View>
@@ -284,7 +272,7 @@ const styles = StyleSheet.create({
   },
   top: {},
   middle: {
-    display: "none",
+    display: "flex",
     flexDirection: "row",
     justifyContent: "center",
     backgroundColor: "#f2f4f7",

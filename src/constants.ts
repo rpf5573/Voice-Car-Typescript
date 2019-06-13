@@ -27,15 +27,18 @@ const parts: Parts = {
         main: '손 펴',
         similar: ['손펴', '손표', '손피라고', '성표', '성펴'],
         code: 11,
+        command: 'motor-6/forward/40'
       },
       {
         main: '손 접어',
         similar: ['손접어', '손저붜', '손자보', '손저봐'],
-        code: 12
+        code: 12,
+        command: 'motor-6/backward/40'
       },
     ],
     stop: {
-      code: 1000
+      code: 1000,
+      command: 'motor-6/stop'
     },
   },
   ARM: {
