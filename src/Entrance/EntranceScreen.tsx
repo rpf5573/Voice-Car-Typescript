@@ -57,7 +57,7 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
         Alert.alert("ERROR", "통신 에러");  
       }
     }).catch((err) => {
-      console.log(err)
+      console.error(err);
       Alert.alert("ERROR", "알수없는 에러가 발생했습니다");
     });
   }

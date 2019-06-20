@@ -24,14 +24,14 @@ const parts: Parts = {
     korean: '손',
     spells: [
       {
-        main: '손 펴',
-        similar: ['손펴', '손표', '손피라고', '성표', '성펴'],
+        main: '펴',
+        similar: ['펴', '표', '피라고'],
         code: 11,
         command: 'motor-6/forward/40'
       },
       {
-        main: '손 접어',
-        similar: ['손접어', '손저붜', '손자보', '손저봐'],
+        main: '접어',
+        similar: ['접어', '저붜', '자보', '저봐'],
         code: 12,
         command: 'motor-6/backward/40'
       },
@@ -46,26 +46,26 @@ const parts: Parts = {
     korean: '팔',
     spells: [
       {
-        main: '팔 펴',
-        similar: ['팔펴','발표', '8펴', '팔피라고', '탈피라고','팔표'],
+        main: '펴',
+        similar: ['펴','표', '8', '피라고', '피라고'],
         code: 21,
         command: 'motor-5/backward/100'
       },
       {
-        main: '팔 접어',
-        similar: ['팔접어', '팔저붜', '팔자보', '팔저봐'],
+        main: '접어',
+        similar: ['접어', '저붜', '자보', '저봐'],
         code: 22,
         command: 'motor-5/forward/100'
       },
       {
-        main: '팔 들어',
-        similar: ['팔들어'],
+        main: '들어',
+        similar: ['들어'],
         code: 23,
         command: 'motor-2/forward/100'
       },
       {
-        main: '팔 내려',
-        similar: ['팔내려'],
+        main: '내려',
+        similar: ['내려'],
         code: 24,
         command: 'motor-2/backward/100'
       },
@@ -77,7 +77,7 @@ const parts: Parts = {
   },
   WAIST: {
     id: 3,
-    korean: '허리',
+    korean: '몸',
     spells: [
       {
         main: '왼쪽',
@@ -99,7 +99,7 @@ const parts: Parts = {
   },
   BOTTOM : {
     id: 4,
-    korean: '하체',
+    korean: '다리',
     spells: [
       {
         main: '앞으로',
