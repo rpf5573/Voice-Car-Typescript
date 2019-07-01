@@ -91,19 +91,28 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
   }
   testmode() {
     let time = 0;
-    const partsArray = [parts.ARM, parts.BOTTOM, parts.HAND, parts.WAIST];
-    partsArray.forEach(part => {
-      part.spells.forEach(spell => {
-        time += 1000;
-        let url: string = `${rapiURL(1)}/${spell.command}`;
+    for ( let motor = 1; motor <= 6; motor++ ) {
+      let url: string = `${rapiURL(1)}/motor-${motor}/`;
+      for ( let moving = 0; moving <= 2; moving++ ) {
+        time += 1500
+        let tempUrl = url;
+        if ( moving == 0 ) {
+          tempUrl += 'forward/95';
+        } 
+        else if ( moving == 1 ) {
+          tempUrl += 'backward/95';
+        } else {
+          tempUrl += 'stop';
+        }
         setTimeout(() => {
-          axios(url).then((response) => {
+          console.log(tempUrl);
+          axios(tempUrl).then((response) => {
           }).catch((err) => {
-            // Alert.alert("ERROR", "포크레인 서버로부터 응답이 없습니다");
+            console.warn(err);
           });
         }, time);
-      });
-    });
+      }
+    }
   }
 }
 
