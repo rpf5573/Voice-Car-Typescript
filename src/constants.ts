@@ -25,15 +25,15 @@ const parts: Parts = {
     spells: [
       {
         main: '펴',
-        similar: ['펴', '표', '피라고'],
+        similar: ['펴', '표', '피라고', '벽', '효'],
         code: 11,
-        command: 'motor-6/forward/40'
+        command: 'motor-6/forward/80'
       },
       {
         main: '접어',
-        similar: ['접어', '저붜', '자보', '저봐'],
+        similar: ['접어', '저붜', '자보', '저봐', '줘봐', '줘바', '접포', '초밥', '여보', '초보', '터보', '초봉'],
         code: 12,
-        command: 'motor-6/backward/40'
+        command: 'motor-6/backward/80'
       },
     ],
     stop: {
@@ -47,25 +47,25 @@ const parts: Parts = {
     spells: [
       {
         main: '펴',
-        similar: ['펴','표', '8', '피라고', '피라고'],
+        similar: ['펴','표', '8', '피라고', '피라고', '표', '벽', '효', '벼'],
         code: 21,
         command: 'motor-5/backward/100'
       },
       {
         main: '접어',
-        similar: ['접어', '저붜', '자보', '저봐'],
+        similar: ['접어', '저붜', '자보', '저봐', '줘봐', '줘바', '접포', '초밥', '여보', '초보', '터보', '초봉'],
         code: 22,
         command: 'motor-5/forward/100'
       },
       {
         main: '들어',
-        similar: ['들어'],
+        similar: ['들어', '틀어', '드론', '트럭', '불어', '그럼'],
         code: 23,
         command: 'motor-2/forward/100'
       },
       {
         main: '내려',
-        similar: ['내려'],
+        similar: ['내려', '내려와', '매력', '노력', '매려', '노려'],
         code: 24,
         command: 'motor-2/backward/100'
       },
@@ -81,13 +81,13 @@ const parts: Parts = {
     spells: [
       {
         main: '왼쪽',
-        similar: ['왼쪽'],
+        similar: ['왼쪽', '외쪽'],
         code: 31,
         command: 'motor-1/backward/100'
       },
       {
         main: '오른쪽',
-        similar: ['오른쪽'],
+        similar: ['오른쪽', '어른쪽', '어느쪽'],
         code: 32,
         command: 'motor-1/forward/100'
       }
@@ -103,27 +103,27 @@ const parts: Parts = {
     spells: [
       {
         main: '앞으로',
-        similar: ['앞으로'],
+        similar: ['앞으로', '아프로', '아브로', '어그로'],
         code: 41,
-        command: 'bottom/forward'
+        command: 'bottom/forward/100'
       },
       {
         main: '뒤로',
-        similar: ['뒤로'],
+        similar: ['뒤로', '기록', '귀로', '1호', '위로'],
         code: 42,
-        command: 'bottom/backward'
+        command: 'bottom/backward/100'
       },
       {
         main: '왼쪽',
         similar: ['왼쪽'],
         code: 43,
-        command: 'bottom/left'
+        command: 'bottom/left/0'
       },
       {
         main: '오른쪽',
-        similar: ['오른쪽'],
+        similar: ['오른쪽', '어른쪽', '어느쪽'],
         code: 44,
-        command: 'bottom/right'
+        command: 'bottom/right/0'
       }
     ],
     stop: {

@@ -121,12 +121,9 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
   sendCommand(command: string|undefined, callback: () => void) {
     callback();
     let url: string = `${rapiURL(this.team)}/${command}`;
-    console.log(url);
     axios(url).then((response) => {
       if ( response.status == 201 ) {
-        
       } else {
-        console.warn(response.status);
       }
     }).catch((err) => {
       Alert.alert("ERROR", "포크레인 서버로부터 응답이 없습니다");

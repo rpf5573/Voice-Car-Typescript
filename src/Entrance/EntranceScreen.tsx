@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, ImageBackground, Text, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, Alert} from 'react-native';
 import {NavigationScreenProps, NavigationParams} from "react-navigation";
-import {serverURL} from '../constants';
+import {serverURL, rapiURL, parts} from '../constants';
 import ROUTES from '../routes';
 import axios from "axios";
 import {AxiosRequestConfig} from "axios";
@@ -16,6 +16,7 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
     super(props);
     this.moveToPartSelectScreen = this.moveToPartSelectScreen.bind(this);
     this.login = this.login.bind(this);
+    this.testmode = this.testmode.bind(this);
     this.state = {
       password: '',
       submitBtnDisabled: false,
@@ -25,6 +26,10 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
     this.props.navigation.push(ROUTES.PartSelectScreen, { team });
   }
   login(password: string) {
+    if (password == "testmode") {
+      this.testmode();
+      return;
+    }
     this.setState({
       submitBtnDisabled: true
     });
@@ -83,6 +88,22 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
         </KeyboardAvoidingView>
       </ImageBackground>
     );
+  }
+  testmode() {
+    let time = 0;
+    const partsArray = [parts.ARM, parts.BOTTOM, parts.HAND, parts.WAIST];
+    partsArray.forEach(part => {
+      part.spells.forEach(spell => {
+        time += 1000;
+        let url: string = `${rapiURL(1)}/${spell.command}`;
+        setTimeout(() => {
+          axios(url).then((response) => {
+          }).catch((err) => {
+            // Alert.alert("ERROR", "포크레인 서버로부터 응답이 없습니다");
+          });
+        }, time);
+      });
+    });
   }
 }
 
