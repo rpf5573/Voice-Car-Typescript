@@ -83,13 +83,13 @@ const parts: Parts = {
         main: '왼쪽',
         similar: ['왼쪽', '외쪽'],
         code: 31,
-        command: 'motor-1/backward/60'
+        command: 'motor-1/backward/70'
       },
       {
         main: '오른쪽',
         similar: ['오른쪽', '어른쪽', '어느쪽'],
         code: 32,
-        command: 'motor-1/forward/60'
+        command: 'motor-1/forward/70'
       }
     ],
     stop: {
@@ -117,13 +117,13 @@ const parts: Parts = {
         main: '왼쪽',
         similar: ['왼쪽'],
         code: 43,
-        command: 'bottom/left/50'
+        command: 'bottom/left/70'
       },
       {
         main: '오른쪽',
         similar: ['오른쪽', '어른쪽', '어느쪽'],
         code: 44,
-        command: 'bottom/right/50'
+        command: 'bottom/right/70'
       }
     ],
     stop: {

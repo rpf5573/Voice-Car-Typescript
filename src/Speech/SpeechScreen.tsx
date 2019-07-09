@@ -103,6 +103,7 @@ export default class SpeechScreen extends Component<NavigationScreenProps<Naviga
         </View>
         <View style={styles.allStopBtnContainer}>
           <TouchableWithoutFeedback onPress={() => {
+            this.stopRecognizing();
             this.sendCommand(this.part.stop.command, () => {
               this.setState({
                 active: false,
