@@ -31,7 +31,7 @@ const parts: Parts = {
       },
       {
         main: '접어',
-        similar: ['접어', '저붜', '자보', '저봐', '줘봐', '줘바', '접포', '초밥', '여보', '초보', '터보', '초봉'],
+        similar: ['접어', '저붜', '자보', '저봐', '줘봐', '줘바', '접포', '초밥', '여보', '초보', '터보', '초봉', '서버', '더워'],
         code: 12,
         command: 'motor-6/backward/80'
       },
@@ -53,7 +53,7 @@ const parts: Parts = {
       },
       {
         main: '접어',
-        similar: ['접어', '저붜', '자보', '저봐', '줘봐', '줘바', '접포', '초밥', '여보', '초보', '터보', '초봉'],
+        similar: ['접어', '저붜', '자보', '저봐', '줘봐', '줘바', '접포', '초밥', '여보', '초보', '터보', '초봉', '서버', '더워'],
         code: 22,
         command: 'motor-5/forward/100'
       },
@@ -65,7 +65,7 @@ const parts: Parts = {
       },
       {
         main: '내려',
-        similar: ['내려', '내려와', '매력', '노력', '매려', '노려'],
+        similar: ['내려', '내려와', '매력', '노력', '매려', '노려', '느려', '재료'],
         code: 24,
         command: 'motor-2/backward/100'
       },
@@ -83,13 +83,13 @@ const parts: Parts = {
         main: '왼쪽',
         similar: ['왼쪽', '외쪽'],
         code: 31,
-        command: 'motor-1/backward/100'
+        command: 'motor-1/backward/60'
       },
       {
         main: '오른쪽',
         similar: ['오른쪽', '어른쪽', '어느쪽'],
         code: 32,
-        command: 'motor-1/forward/100'
+        command: 'motor-1/forward/60'
       }
     ],
     stop: {
@@ -117,13 +117,13 @@ const parts: Parts = {
         main: '왼쪽',
         similar: ['왼쪽'],
         code: 43,
-        command: 'bottom/left/0'
+        command: 'bottom/left/50'
       },
       {
         main: '오른쪽',
         similar: ['오른쪽', '어른쪽', '어느쪽'],
         code: 44,
-        command: 'bottom/right/0'
+        command: 'bottom/right/50'
       }
     ],
     stop: {

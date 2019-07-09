@@ -94,18 +94,17 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
     for ( let motor = 1; motor <= 6; motor++ ) {
       let url: string = `${rapiURL(1)}/motor-${motor}/`;
       for ( let moving = 0; moving <= 2; moving++ ) {
-        time += 1500
+        time += 3000
         let tempUrl = url;
         if ( moving == 0 ) {
-          tempUrl += 'forward/95';
+          tempUrl += 'forward/100';
         } 
         else if ( moving == 1 ) {
-          tempUrl += 'backward/95';
+          tempUrl += 'backward/100';
         } else {
           tempUrl += 'stop';
         }
         setTimeout(() => {
-          console.log(tempUrl);
           axios(tempUrl).then((response) => {
           }).catch((err) => {
             console.warn(err);
