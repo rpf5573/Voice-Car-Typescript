@@ -9,6 +9,7 @@ import {AxiosRequestConfig} from "axios";
 type States = {
   password: string,
   submitBtnDisabled: boolean,
+  willUseVoice: boolean|null
 }
 
 export default class EntranceScreen extends Component<NavigationScreenProps<NavigationParams>, States> {
@@ -20,10 +21,28 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
     this.state = {
       password: '',
       submitBtnDisabled: false,
+      willUseVoice: null
     }
   }
-  moveToPartSelectScreen(team: number) {
-    this.props.navigation.push(ROUTES.PartSelectScreen, { team });
+  componentWillMount() {
+    axios(`${serverURL}/user/initialState`).then((response) => {
+      if (response.status == 201) {
+        if (response.data.error) {
+          Alert.alert(response.data.error);
+          return;
+        }
+        console.dir(response.data);
+        this.setState({willUseVoice: response.data.willUseVoice});
+      } else {
+        Alert.alert("ERROR", "통신 에러");
+      }
+    }).catch((err) => {
+      console.error(err);
+      Alert.alert("ERROR", "알수없는 에러가 발생했습니다");
+    });
+  }
+  moveToPartSelectScreen(team: number, willUseVoice: boolean) {
+    this.props.navigation.push(ROUTES.PartSelectScreen, { team, willUseVoice });
   }
   login(password: string) {
     if (password == "testmode") {
@@ -53,7 +72,7 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
         Alert.alert('성공',`${response.data.team}팀으로 입장`, [
           {
             text: "확인",
-            onPress: () => { this.moveToPartSelectScreen(response.data.team) }
+            onPress: () => { this.moveToPartSelectScreen(response.data.team, this.state.willUseVoice!) }
           }
         ], {
           cancelable: false
@@ -67,34 +86,38 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
     });
   }
   render() {
-    return (
-      <ImageBackground source={require("../images/background.jpeg")} style={styles.backgroundImage}>
-        <KeyboardAvoidingView>
-          <View style={styles.container}>
-            <Text style={styles.textLogo}>- 팀 포크레인 -</Text>
-            <View style={styles.passwordContainer}>
-              <TextInput style={styles.passwordInput}
-                placeholder="비밀번호 입력"
-                onChangeText={(text) => {this.setState({password: text})}}
-                underlineColorAndroid='transparent'/>
-              <TouchableOpacity
-                disabled={this.state.submitBtnDisabled}
-                style={styles.passwordSubmitBtn}
-                onPress={() => { this.login(this.state.password) }}>
-                <Text>Log in</Text>
-                </TouchableOpacity>
+    if ( this.state.willUseVoice != null ) {
+      return (
+        <ImageBackground source={require("../images/background.jpeg")} style={styles.backgroundImage}>
+          <KeyboardAvoidingView>
+            <View style={styles.container}>
+              <Text style={styles.textLogo}>- 팀 포크레인 -</Text>
+              <View style={styles.passwordContainer}>
+                <TextInput style={styles.passwordInput}
+                  placeholder="비밀번호 입력"
+                  onChangeText={(text) => {this.setState({password: text})}}
+                  underlineColorAndroid='transparent'/>
+                <TouchableOpacity
+                  disabled={this.state.submitBtnDisabled}
+                  style={styles.passwordSubmitBtn}
+                  onPress={() => { this.login(this.state.password) }}>
+                  <Text>Log in</Text>
+                  </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </KeyboardAvoidingView>
-      </ImageBackground>
-    );
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      );
+    }
+    else {
+      return (<View></View>)
+    }
   }
   testmode() {
     let time = 0;
     for ( let motor = 1; motor <= 6; motor++ ) {
       let url: string = `${rapiURL(1)}/motor-${motor}/`;
       for ( let moving = 0; moving <= 2; moving++ ) {
-        time += 3000
         let tempUrl = url;
         if ( moving == 0 ) {
           tempUrl += 'forward/100';
@@ -103,6 +126,7 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
           tempUrl += 'backward/100';
         } else {
           tempUrl += 'stop';
+          time -= 48000;
         }
         setTimeout(() => {
           axios(tempUrl).then((response) => {
@@ -110,6 +134,7 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
             console.warn(err);
           });
         }, time);
+        time += 50000;
       }
     }
   }

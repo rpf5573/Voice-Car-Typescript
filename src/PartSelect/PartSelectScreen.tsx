@@ -15,7 +15,9 @@ export default class PartSelectScreen extends Component<NavigationScreenProps<Na
     this.state = {
       part: null
     }
+    this.renderPartBoxes = this.renderPartBoxes.bind(this);
     this.moveToSpeechScreen = this.moveToSpeechScreen.bind(this);
+    this.moveToRCScreen = this.moveToRCScreen.bind(this);
   }
   static navigationOptions = {
     title: '몸체 설정'
@@ -31,12 +33,25 @@ export default class PartSelectScreen extends Component<NavigationScreenProps<Na
       Alert.alert("ERROR", "팀이 설정되어있지 않습니다.");
     }
   }
+  moveToRCScreen(part: Part) {
+    let team: number = this.props.navigation.getParam('team');
+    if ( team > 0 ) {
+      this.props.navigation.push(ROUTES.RemoteControllerScreen, {
+        part,
+        team
+      });
+    } else {
+      Alert.alert("ERROR", "팀이 설정되어있지 않습니다.");
+    }
+  }
   renderPartBoxes(parts: Parts) {
+    let willUseVoice = this.props.navigation.getParam('willUseVoice');
+    let moveToControllerScreen = willUseVoice ? this.moveToSpeechScreen : this.moveToRCScreen;
     let partBoxes = []
-    partBoxes.push(<PartBox key="hand" moveToSpeechScreen={this.moveToSpeechScreen} part={parts.HAND} image={require('../images/hand.png')}></PartBox>);
-    partBoxes.push(<PartBox key="arm" moveToSpeechScreen={this.moveToSpeechScreen} part={parts.ARM} image={require('../images/arm.png')}></PartBox>);
-    partBoxes.push(<PartBox key="waist" moveToSpeechScreen={this.moveToSpeechScreen} part={parts.WAIST} image={require('../images/waist.png')}></PartBox>);
-    partBoxes.push(<PartBox key="bottom" moveToSpeechScreen={this.moveToSpeechScreen} part={parts.BOTTOM} image={require('../images/bottom.png')}></PartBox>);
+    partBoxes.push(<PartBox key="hand" moveToControllerScreen={moveToControllerScreen} part={parts.HAND} image={require('../images/hand.png')}></PartBox>);
+    partBoxes.push(<PartBox key="arm" moveToControllerScreen={moveToControllerScreen} part={parts.ARM} image={require('../images/arm.png')}></PartBox>);
+    partBoxes.push(<PartBox key="waist" moveToControllerScreen={moveToControllerScreen} part={parts.WAIST} image={require('../images/waist.png')}></PartBox>);
+    partBoxes.push(<PartBox key="bottom" moveToControllerScreen={moveToControllerScreen} part={parts.BOTTOM} image={require('../images/bottom.png')}></PartBox>);
 
     return partBoxes;
   }

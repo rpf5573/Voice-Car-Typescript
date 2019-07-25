@@ -5,7 +5,7 @@ import {Part} from '../@types/index';
 type Props = {
   backgroundColor?: string,
   part: Part,
-  moveToSpeechScreen: (part: Part) => void,
+  moveToControllerScreen: (part: Part) => void,
   image: ImageSourcePropType
 }
 export default class PartBox extends Component<Props> {
@@ -25,7 +25,7 @@ export default class PartBox extends Component<Props> {
             },
             {
               text: '예',
-              onPress: () => {this.props.moveToSpeechScreen(this.props.part)}
+              onPress: () => {this.props.moveToControllerScreen(this.props.part)}
             }
           ]
         )

@@ -19,9 +19,13 @@ type Parts = {
   WAIST: Part,
   BOTTOM: Part
 }
+type InitialAppState = {
+  willUseVoice: boolean|null
+}
 
 export {
   Spell,
   Part,
-  Parts
+  Parts,
+  InitialAppState
 }
