@@ -45,12 +45,7 @@ export default class RemoteControllerScreen extends Component<NavigationScreenPr
         <Text>여기는 리모컨 컨트롤러 스크린 입니다</Text>
         <View style={styles.rcContainer}>
           <View style={styles.wrapper}>
-            <Svg
-              style={[styles.arrow]}
-              width="100%" height="100%"
-            >
-              <Path id="canvas1-bezier" stroke="rgb(250, 0, 0)" stroke-width="5" stroke-miterlimit="10" fill="rgb(54, 255, 0)" d="M 41.5,13.5 L 4.5,85.5 88.5,85.5 41.5,13.5 Z M 41.5,13.5" />
-            </Svg>
+            
           </View>
         </View>
       </View>
