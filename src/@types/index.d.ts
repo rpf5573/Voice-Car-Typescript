@@ -4,6 +4,11 @@ type Spell = {
   code: number,
   command?: string // 아직은 undefined
 }
+type SpellOnRemote = {
+  main: string,
+  active: boolean,
+  command: string
+}
 type Part = {
   id: number,
   korean: string,
@@ -22,10 +27,16 @@ type Parts = {
 type InitialAppState = {
   willUseVoice: boolean|null
 }
+type DirBtn = {
+  direction: string,
+  comment: string
+}
 
 export {
   Spell,
+  SpellOnRemote,
   Part,
   Parts,
-  InitialAppState
+  InitialAppState,
+  DirBtn
 }

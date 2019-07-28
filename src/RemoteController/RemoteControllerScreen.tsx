@@ -1,57 +1,72 @@
 import React, { Component } from "react";
 import {
-  Platform,
   StyleSheet,
-  Text,
   View,
-  Image,
-  PermissionsAndroid,
-  TouchableWithoutFeedback,
-  Alert
+  Alert,
+  Text
 } from "react-native";
-import {Locale, rapiURL} from '../constants';
+import { rapiURL, parts } from '../constants';
 import { NavigationScreenProps, NavigationParams } from "react-navigation";
 import axios from "axios";
-import { Part } from "../@types/index";
-import { TouchableHighlight } from "react-native-gesture-handler";
-import { number } from "prop-types";
+import { Part, SpellOnRemote } from "../@types/index";
+import Spell from './Spell';
 
-import Svg,{
-  Circle,
-  Path,
-  Rect,
-} from 'react-native-svg';
-
-type States = {
-  active: boolean;
-  error: string;
-  result: string;
-  partialResults: string[];
-  matchedSpellCode: number;
-};
+type States = {};
 export default class RemoteControllerScreen extends Component<NavigationScreenProps<NavigationParams>,States> {
   constructor(props: NavigationScreenProps) {
     super(props);
     this.sendCommand = this.sendCommand.bind(this);
+    this.renderSpells = this.renderSpells.bind(this);
+    let spells: SpellOnRemote[] = [];
+    Object.entries(parts).forEach( ([key, value]) => {
+      let active = false;
+      if ( value.id == this.part.id ) {
+        active = true;
+      }
+      spells.push(
+        ...value.spells.map((spell) => {
+          return {
+            main: value.korean == '다리' ? `${value.korean}\n${spell.main}` : `${value.korean} ${spell.main}`,
+            active: active,
+            command: spell.command!
+          }
+        })
+      );
+    });
+    this.spells = spells;
   }
-  team: number = this.props.navigation.getParam("team");
-  part: Part = this.props.navigation.getParam("part");
+  spells: SpellOnRemote[];
+  // team: number = this.props.navigation.getParam("team");
+  // part: Part = this.props.navigation.getParam("part");
+  team: number = 1;
+  part: Part = parts.ARM;
+
   static navigationOptions = {
     title: "리모컨"
   };
   render() {
     return (
       <View style={styles.container}>
-        <Text>여기는 리모컨 컨트롤러 스크린 입니다</Text>
-        <View style={styles.rcContainer}>
-          <View style={styles.wrapper}>
-            
+        <View style={styles.title}>
+          <Text style={styles.title_text}>리모컨 페이지</Text>
+          <Text style={styles.title_description}>주황색 버튼을 누르면 포크레인이 움직입니다</Text>
+        </View>
+        <View style={styles.spellsContainer}>
+          <View style={styles.spells}>
+            {this.renderSpells(this.spells)}
           </View>
         </View>
       </View>
     );
   }
-
+  renderSpells(_spells: SpellOnRemote[]) {
+    let key = 0;
+    let spells = _spells.map((spell) => {
+      key += 1;
+      return <Spell key={key} spell={spell.main} active={spell.active} team={this.team} command={spell.command}></Spell>
+    });
+    return spells;
+  }
   // custom function
   sendCommand(command: string|undefined, callback: () => void) {
     callback();
@@ -70,47 +85,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
-    justifyContent: "space-between",
-    paddingBottom: 80,
     position: 'relative'
   },
-  rcContainer: {
+  title: {},
+  title_text: {
+    fontSize: 24,
+    textAlign: 'center'
+  },
+  title_description: {
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  spellsContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
+    alignItems: 'center'
   },
-  wrapper: {
-    width: '100%',
-    height: '80%'
-  },
-  title: {
-    fontSize: 34,
-    textAlign: "center",
-    marginBottom: 30
-  },
-  arrow: {
-    position: 'absolute'
-  },
-  arrowTop: {
-    top: 20
-  },
-  arrowRight: {
-    left: 260,
-    transform: [
-      { rotate: '90deg' }
-    ]
-  },
-  arrowBottom: {
-    bottom: 20,
-    transform: [
-      { rotate: '180deg' }
-    ]
-  },
-  arrowLeft: {
-    right: 260,
-    transform: [
-      { rotate: '270deg' }
-    ]
+  spells: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   }
 });

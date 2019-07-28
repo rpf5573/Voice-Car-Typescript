@@ -5,7 +5,6 @@ import {
   Text,
   View,
   Image,
-  PermissionsAndroid,
   TouchableWithoutFeedback,
   Alert
 } from "react-native";
@@ -15,8 +14,6 @@ import Voice from "react-native-voice";
 import Spell from "./Spell";
 import axios from "axios";
 import { Part, Parts, Spell as SpellType } from "../@types/index";
-import { TouchableHighlight } from "react-native-gesture-handler";
-import { number } from "prop-types";
 
 type States = {
   active: boolean;

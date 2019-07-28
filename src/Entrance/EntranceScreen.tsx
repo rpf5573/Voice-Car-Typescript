@@ -45,8 +45,11 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
     this.props.navigation.push(ROUTES.PartSelectScreen, { team, willUseVoice });
   }
   login(password: string) {
-    if (password == "testmode") {
-      this.testmode();
+    if (password == "testmode1") {
+      this.testmode(1);
+      return;
+    } else if (password == "testmode2") {
+      this.testmode(2);
       return;
     }
     this.setState({
@@ -113,28 +116,91 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
       return (<View></View>)
     }
   }
-  testmode() {
-    let time = 0;
-    for ( let motor = 1; motor <= 6; motor++ ) {
-      let url: string = `${rapiURL(1)}/motor-${motor}/`;
-      for ( let moving = 0; moving <= 2; moving++ ) {
-        let tempUrl = url;
-        if ( moving == 0 ) {
-          tempUrl += 'forward/100';
-        } 
-        else if ( moving == 1 ) {
-          tempUrl += 'backward/100';
-        } else {
-          tempUrl += 'stop';
-          time -= 48000;
+  testmode(t: number) {
+    if (t == 1) {
+      let arr: Array<string> = [
+        'motor-1/forward/100',
+        'motor-1/backward/100',
+        'motor-1/stop',
+        'motor-2/forward/100',
+        'motor-2/backward/100',
+        'motor-2/stop',
+        'motor-3/forward/100',
+        'motor-3/backward/100',
+        'motor-3/stop',
+        'motor-4/forward/100',
+        'motor-4/backward/100',
+        'motor-4/stop',
+        'motor-5/forward/100',
+        'motor-5/backward/100',
+        'motor-5/stop',
+        'motor-6/forward/100',
+        'motor-6/backward/100',
+        'motor-6/stop',
+      ];
+      for(var i = 0; i < arr.length; i++){
+        let time = 5000*i;
+        if (i%3 == 0) {
+          time -= 4000;
         }
+        let url = `${rapiURL(1)}/${arr[i]}`;
+        console.log(url);
         setTimeout(() => {
-          axios(tempUrl).then((response) => {
+          axios(url).then(response => {
+            
           }).catch((err) => {
             console.warn(err);
           });
         }, time);
-        time += 50000;
+      }
+    } else if (t == 2) {
+
+      // all forward
+      let arr: Array<string> = [
+        'motor-1/forward/100',
+        'motor-2/forward/100',
+        'motor-3/forward/100',
+        'motor-4/forward/100',
+        'motor-5/forward/100',
+        'motor-6/forward/100',
+      ]
+      for(let i = 0; i < arr.length; i++){
+        let time = 100*i;
+        setTimeout(() => {
+          axios(`${rapiURL(1)}/${arr[i]}`)
+        }, time);
+      }
+
+      // all backward
+      arr = [
+        'motor-1/backward/100',
+        'motor-2/backward/100',
+        'motor-3/backward/100',
+        'motor-4/backward/100',
+        'motor-5/backward/100',
+        'motor-6/backward/100',
+      ]
+      for(let i = 0; i < arr.length; i++){
+        let time = 10000*i;
+        setTimeout(() => {
+          axios(`${rapiURL(1)}/${arr[i]}`)
+        }, time);
+      }
+      
+      // all stop
+      arr = [
+        'motor-1/stop',
+        'motor-2/stop',
+        'motor-3/stop',
+        'motor-4/stop',
+        'motor-5/stop',
+        'motor-6/stop',
+      ]
+      for(let i = 0; i < arr.length; i++) {
+        let time = 15000*i;
+        setTimeout(() => {
+          axios(`${rapiURL(1)}/${arr[i]}`);
+        }, time);
       }
     }
   }

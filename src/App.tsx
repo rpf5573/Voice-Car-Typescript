@@ -19,7 +19,7 @@ const AppNavigator = createStackNavigator(
     RemoteControllerScreen
   },
   {
-    initialRouteName: ROUTES.EntranceScreen,
+    initialRouteName: ROUTES.RemoteControllerScreen,
     headerMode: "none"
   }
 );
