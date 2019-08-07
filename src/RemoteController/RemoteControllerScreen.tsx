@@ -15,7 +15,6 @@ type States = {};
 export default class RemoteControllerScreen extends Component<NavigationScreenProps<NavigationParams>,States> {
   constructor(props: NavigationScreenProps) {
     super(props);
-    this.sendCommand = this.sendCommand.bind(this);
     this.renderSpells = this.renderSpells.bind(this);
     let spells: SpellOnRemote[] = [];
     Object.entries(parts).forEach( ([key, value]) => {
@@ -36,10 +35,10 @@ export default class RemoteControllerScreen extends Component<NavigationScreenPr
     this.spells = spells;
   }
   spells: SpellOnRemote[];
-  // team: number = this.props.navigation.getParam("team");
-  // part: Part = this.props.navigation.getParam("part");
-  team: number = 1;
-  part: Part = parts.ARM;
+  team: number = this.props.navigation.getParam("team");
+  part: Part = this.props.navigation.getParam("part");
+  // team: number = 1;
+  // part: Part = parts.ARM;
 
   static navigationOptions = {
     title: "리모컨"
@@ -66,18 +65,6 @@ export default class RemoteControllerScreen extends Component<NavigationScreenPr
       return <Spell key={key} spell={spell.main} active={spell.active} team={this.team} command={spell.command}></Spell>
     });
     return spells;
-  }
-  // custom function
-  sendCommand(command: string|undefined, callback: () => void) {
-    callback();
-    let url: string = `${rapiURL(this.team)}/${command}`;
-    axios(url).then((response) => {
-      if ( response.status == 201 ) {
-      } else {
-      }
-    }).catch((err) => {
-      Alert.alert("ERROR", "포크레인 서버로부터 응답이 없습니다");
-    });
   }
 }
 

@@ -9,7 +9,7 @@ import {AxiosRequestConfig} from "axios";
 type States = {
   password: string,
   submitBtnDisabled: boolean,
-  willUseVoice: boolean|null
+  rcUsageState: boolean|null
 }
 
 export default class EntranceScreen extends Component<NavigationScreenProps<NavigationParams>, States> {
@@ -21,18 +21,19 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
     this.state = {
       password: '',
       submitBtnDisabled: false,
-      willUseVoice: null
+      rcUsageState: null
     }
   }
   componentWillMount() {
     axios(`${serverURL}/user/initialState`).then((response) => {
+      console.log(response.data);
       if (response.status == 201) {
         if (response.data.error) {
           Alert.alert(response.data.error);
           return;
         }
-        console.dir(response.data);
-        this.setState({willUseVoice: response.data.willUseVoice});
+        let rcUsageState = parseInt(response.data.rcUsageState) ? true : false;
+        this.setState({rcUsageState});
       } else {
         Alert.alert("ERROR", "통신 에러");
       }
@@ -41,8 +42,8 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
       Alert.alert("ERROR", "알수없는 에러가 발생했습니다");
     });
   }
-  moveToPartSelectScreen(team: number, willUseVoice: boolean) {
-    this.props.navigation.push(ROUTES.PartSelectScreen, { team, willUseVoice });
+  moveToPartSelectScreen(team: number, rcUsageState: boolean) {
+    this.props.navigation.push(ROUTES.PartSelectScreen, { team, rcUsageState });
   }
   login(password: string) {
     if (password == "testmode1") {
@@ -75,7 +76,7 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
         Alert.alert('성공',`${response.data.team}팀으로 입장`, [
           {
             text: "확인",
-            onPress: () => { this.moveToPartSelectScreen(response.data.team, this.state.willUseVoice!) }
+            onPress: () => { this.moveToPartSelectScreen(response.data.team, this.state.rcUsageState!) }
           }
         ], {
           cancelable: false
@@ -89,7 +90,7 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
     });
   }
   render() {
-    if ( this.state.willUseVoice != null ) {
+    if ( this.state.rcUsageState != null ) {
       return (
         <ImageBackground source={require("../images/background.jpeg")} style={styles.backgroundImage}>
           <KeyboardAvoidingView>

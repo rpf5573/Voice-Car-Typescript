@@ -25,7 +25,7 @@ type Parts = {
   BOTTOM: Part
 }
 type InitialAppState = {
-  willUseVoice: boolean|null
+  rcUsageState: boolean|null
 }
 type DirBtn = {
   direction: string,

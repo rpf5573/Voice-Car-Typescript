@@ -57,6 +57,7 @@ export default class Spell extends Component<Props, States> {
   }
   sendCommand(command: string|undefined, callback: () => void) {
     let url: string = `${rapiURL(this.props.team)}/${command}`;
+    console.log(url);
     axios(url).then((response) => {
       if ( response.status == 201 ) {
         callback();

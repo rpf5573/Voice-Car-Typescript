@@ -45,8 +45,8 @@ export default class PartSelectScreen extends Component<NavigationScreenProps<Na
     }
   }
   renderPartBoxes(parts: Parts) {
-    let willUseVoice = this.props.navigation.getParam('willUseVoice');
-    let moveToControllerScreen = willUseVoice ? this.moveToSpeechScreen : this.moveToRCScreen;
+    let rcUsageState = this.props.navigation.getParam('rcUsageState');
+    let moveToControllerScreen = rcUsageState ? this.moveToRCScreen : this.moveToSpeechScreen;
     let partBoxes = []
     partBoxes.push(<PartBox key="hand" moveToControllerScreen={moveToControllerScreen} part={parts.HAND} image={require('../images/hand.png')}></PartBox>);
     partBoxes.push(<PartBox key="arm" moveToControllerScreen={moveToControllerScreen} part={parts.ARM} image={require('../images/arm.png')}></PartBox>);
