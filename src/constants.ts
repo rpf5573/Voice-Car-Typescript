@@ -61,13 +61,13 @@ const parts: Parts = {
         main: '들어',
         similar: ['들어', '틀어', '드론', '트럭', '불어', '그럼'],
         code: 23,
-        command: 'motor-2/forward/100'
+        command: 'motor-2/backward/100'
       },
       {
         main: '내려',
         similar: ['내려', '내려와', '매력', '노력', '매려', '노려', '느려', '재료'],
         code: 24,
-        command: 'motor-2/backward/100'
+        command: 'motor-2/forward/100'
       },
     ],
     stop: {
@@ -83,13 +83,13 @@ const parts: Parts = {
         main: '왼쪽',
         similar: ['왼쪽', '외쪽'],
         code: 31,
-        command: 'motor-1/backward/70'
+        command: 'motor-1/forward/70'
       },
       {
         main: '오른쪽',
         similar: ['오른쪽', '어른쪽', '어느쪽'],
         code: 32,
-        command: 'motor-1/forward/70'
+        command: 'motor-1/backward/70'
       }
     ],
     stop: {
