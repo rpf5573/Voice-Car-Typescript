@@ -50,7 +50,7 @@ export default class Spell extends Component<Props, States> {
         this.setState({ running: true });
       });
     } else {
-      this.sendCommand(this.props.command, () => {
+      this.sendCommand(this.stopCommand, () => {
         this.setState({ running: false });
       });
     }

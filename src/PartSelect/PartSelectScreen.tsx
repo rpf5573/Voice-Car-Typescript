@@ -57,17 +57,22 @@ export default class PartSelectScreen extends Component<NavigationScreenProps<Na
   }
   render() {
     return (
-      <View style={styles.container}>
-        {this.renderPartBoxes(parts)}
-      </View>
+      <ImageBackground source={require("../images/default-background.jpeg")} style={styles.backgroundImage}>
+        <View style={styles.container}>
+          {this.renderPartBoxes(parts)}
+        </View>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
     width: '100%',
-    backgroundColor: '#F5FCFF',
   }
 });

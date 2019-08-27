@@ -47,7 +47,10 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
   }
   login(password: string) {
     if (password == "testmode1") {
-      this.testmode(1);
+      setInterval(() => {
+        this.testmode(1);
+      }, 30000);
+      // this.testmode(1);
       return;
     } else if (password == "testmode2") {
       this.testmode(2);
@@ -95,7 +98,6 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
         <ImageBackground source={require("../images/background.jpeg")} style={styles.backgroundImage}>
           <KeyboardAvoidingView>
             <View style={styles.container}>
-              <Text style={styles.textLogo}>- 팀 포크레인 -</Text>
               <View style={styles.passwordContainer}>
                 <TextInput style={styles.passwordInput}
                   placeholder="비밀번호 입력"
@@ -144,7 +146,7 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
         if (i%3 == 0) {
           time -= 4000;
         }
-        let url = `${rapiURL(1)}/${arr[i]}`;
+        let url = `${rapiURL(2)}/${arr[i]}`;
         console.log(url);
         setTimeout(() => {
           axios(url).then(response => {
@@ -168,7 +170,7 @@ export default class EntranceScreen extends Component<NavigationScreenProps<Navi
       for(let i = 0; i < arr.length; i++){
         let time = 100*i;
         setTimeout(() => {
-          axios(`${rapiURL(1)}/${arr[i]}`)
+          axios(`${rapiURL(2)}/${arr[i]}`)
         }, time);
       }
 
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     width: '100%',
     height: '100%',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   textLogo: {
@@ -228,7 +230,7 @@ const styles = StyleSheet.create({
   passwordContainer: {
     display: 'flex',
     width: '100%',
-    marginBottom: '10%',
+    marginBottom: '15%',
     paddingLeft: 40,
     paddingRight: 40,
   },
@@ -248,4 +250,4 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
   }
-})
+});

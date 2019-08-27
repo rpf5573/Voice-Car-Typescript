@@ -31,7 +31,7 @@ export default class PartBox extends Component<Props> {
         )
         }}>
           <View style={styles.innerBox}>
-            <Text style={styles.btnText}>{this.props.part.korean}</Text>
+            
             <Image style={styles.img} source={this.props.image} resizeMode="contain"></Image>
           </View>
         </TouchableWithoutFeedback>
@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 50,
-    color: 'black'
+    color: 'white'
   },
   innerBox: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   img: {
-    maxWidth: 100,
+    maxWidth: 132,
     maxHeight: '100%'
   }
 });
